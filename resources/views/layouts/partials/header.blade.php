@@ -1,15 +1,17 @@
 <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
-    <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+    <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar"
+        data-class="c-sidebar-show">
         <i class="c-icon c-icon-lg icon-menu"></i>
     </button>
     <div class="row  d-lg-none">
         <div class="col-sm-12">
-        <a class="c-header-brand" href="#">
-            <img src="{{ asset('img/profile/logo-abepura.png') }}" class="img-fluid" style="max-height:50px">
-    </a>
+            <a class="c-header-brand" href="#">
+                <img src="{{ asset('img/profile/logo.png') }}" class="img-fluid" style="max-height:50px">
+            </a>
         </div>
     </div>
-    <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+    <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
+        data-class="c-sidebar-lg-show" responsive="true">
         <i class="c-icon c-icon-lg icon-menu"></i>
     </button>
     <ul class="c-header-nav d-md-down-none">
@@ -19,10 +21,12 @@
     </ul>
     <ul class="c-header-nav ml-auto mr-4">
         <li class="c-header-nav-item d-md-down-none mx-2">
-        Selamat datang <b>{{ (Auth::user() != null ? Auth::user()->username : '' ) }}</b>      
-    </li> 
-        <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <div class="c-avatar"><img class="c-avatar-img" src="{{ asset('img/profile/profile.png') }}" alt="profile"></div>
+            Selamat datang <b>{{ (Auth::user() != null ? Auth::user()->username : '' ) }}</b>
+        </li>
+        <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"
+                role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="c-avatar"><img class="c-avatar-img" src="{{ asset('img/profile/profile.png') }}"
+                        alt="profile"></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">
                 <div class="dropdown-header bg-light py-2"><strong>Account</strong></div>
@@ -39,5 +43,5 @@
             </div>
         </li>
     </ul>
-    @include('layouts.backend.partials.bcrum')
+    @include('layouts.partials.bcrum')
 </header>

@@ -16,6 +16,7 @@
 -   npm install laravel-mix --save-dev
 -   npm install laravel-mix-merge-manifest@v2 --save-dev
 -   npm install sweetalert2 chart.js
+-   npm install @core/coreui@^3.0.0
 
 ## Changelog
 

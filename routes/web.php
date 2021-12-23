@@ -25,5 +25,5 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => ['auth'], 'namespace' => 'Backend', 'prefix' => 'backend'], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
-
+    Route::resource('users', 'UsersController');
 });
