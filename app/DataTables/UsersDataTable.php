@@ -11,6 +11,11 @@ use Yajra\DataTables\Services\DataTable;
 
 class UsersDataTable extends DataTable
 {
+
+    protected function url()
+    {
+        return route('ajax.users');
+    }
     /**
      * Build DataTable class.
      *
@@ -21,6 +26,16 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->startsWithSearch()
+            ->setRowId('idx')
+            ->addIndexColumn()
+            ->editColumn('status', function ($query) {
+                if ($query->status == 1) {
+                    return '<span class="badge badge-success">AKTIF</span>';
+                } else {
+                    return '<span class="badge badge-primary">NONAKTIF</span>';
+                }
+            })
             ->addColumn('action', 'users.action');
     }
 
@@ -30,9 +45,16 @@ class UsersDataTable extends DataTable
      * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query($query)
     {
-        return $model->newQuery();
+       return $query->addSelect(
+            'id',
+            'name',
+            'username',
+            'email',
+            'kode_pegawai',
+            'status'
+        );
     }
 
     /**
@@ -42,19 +64,31 @@ class UsersDataTable extends DataTable
      */
     public function html()
     {
-        return $this->builder()
-                    ->setTableId('users-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+         return $this->builder()
+            ->setTableId('tabel-users')
+            ->addTableClass('table-hover')
+            ->columns($this->getColumns())
+            ->minifiedAjax($this->url(), null, [
+                'status' => "function(){  return $('select#status').val(); }",
+                'term'   => "function(){ return $('input#term').val(); }",
+            ])
+            ->parameters([
+                'pageLength' => 25,
+                'processing' => true,
+                'serverSide' => true,
+                'responsive' => true,
+                'dom'        => '<t<p >>',
+                'destroy'   => true,
+                'autoWidth' => false,
+                'language' => [
+                    'lengthMenu' => '_MENU_',
+                    'info' => 'Menampilkan <b>_START_ sampai _END_</b> dari _TOTAL_ data',
+                    'zeroRecords' => 'Tidak ada data',
+                    'emptyTable' => 'Data tidak tersedia',
+                    'loadingRecords' => '<img src="' . asset('ajax-loader.gif') . ' Loading...',
+                ],
+
+            ]);
     }
 
     /**
@@ -64,16 +98,15 @@ class UsersDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
+         return [
+            Column::computed('DT_RowIndex')->searchable(false)->title('#'),
+            Column::make('nama_pemakai')->title('Nama Login'),
+            Column::make('lastlogin')->title('Terakhir Login'),
+            Column::make('loginpemakai_aktif')->searchable(false)->title('Status'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center text-nowrap'),
         ];
     }
 

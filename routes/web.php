@@ -26,4 +26,5 @@ Route::group(['middleware' => ['auth'], 'namespace' => 'Backend', 'prefix' => 'b
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('users', 'UsersController');
+    Route::get('ajax/users', 'UsersController@indexAjax')->name('ajax.users');
 });
