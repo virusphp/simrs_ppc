@@ -69,12 +69,7 @@
 
         $('.add-user-btn').click(function() {
             unsetFormUser();
-            let options = {
-                backdrop: 'static',
-                show: true
-            };
-            $('#modal-user').modal(options);
-            // showModalCreate();
+            showModalCreate();
         })
 
         function showModalCreate() {
