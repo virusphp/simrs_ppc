@@ -23,7 +23,7 @@ User
                             </li>
                             <li class="list-inline-item float-right">
                                 <div class="d-none d-md-block">
-                                    <button class="add-user-btn btn btn-sm btn-primary mb-3 mr-auto">
+                                    <button id="add-user" class="add-user-btn btn btn-sm btn-primary mb-3 mr-auto">
                                         <i class="c-icon fa fa-plus"></i>
                                         Tambah User
                                     </button>
@@ -68,10 +68,10 @@ User
 
 @push('css')
 <link rel="stylesheet" href="{{ mix('css/form.css') }}">
-
 @endpush
 
 @push('scripts')
+
 <script src="{{ mix('js/form.js') }}"></script>
 {{-- config script validation,sweetalert2,etc --}}
 @include('script.script-global')

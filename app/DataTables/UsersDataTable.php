@@ -44,11 +44,6 @@ class UsersDataTable extends DataTable
                     return $query->email;
                 }
             })
-            ->addColumn('kode_pegawai',function($query){
-                if(!is_null($query->kode_pegawai)) {
-                    return $query->kode_pegawai;
-                }
-            })
             ->addColumn('action', function ($query) {
                 return view('datatables._action-user', [
                     'idx' => $query->id,
@@ -79,7 +74,6 @@ class UsersDataTable extends DataTable
             'name',
             'username',
             'email',
-            'kode_pegawai',
             'status'
         );
     }
@@ -130,7 +124,6 @@ class UsersDataTable extends DataTable
             Column::make('name')->title('Nama'),
             Column::make('username')->title('Username'),
             Column::make('email')->title('Email'),
-            Column::make('kode_pegawai')->title('Kode Pegawai'),
             Column::make('status')->searchable(false)->title('Status'),
             Column::computed('action')
                 ->exportable(false)

@@ -32,17 +32,6 @@
 
         function unsetFormUser() {
             clearError();
-            $('#id-user').val('').trigger('change');
-            $('input[name="jenispemakai"]').prop('checked', false).trigger('change');
-            $('#username').val('').trigger('change');
-            $('#nama_pegawai').val('').trigger('change');
-            $('#nama_pasien').val('').trigger('change');
-            $('#password').val('').trigger('change');
-            $('#password_confirmation').val('').trigger('change');
-            $('#pasien_id').val('').trigger('change');
-            $('#pegawai_id').val('').trigger('change');
-            $('#ruangan_id').val('').trigger('change');
-            $('#modul_id').val('').trigger('change');
             return false;
         }
 
@@ -77,15 +66,21 @@
         // ============= END INIT =============
 
         // ============= ADD =============
+
         $('.add-user-btn').click(function() {
             unsetFormUser();
-            showModalCreate();
+            let options = {
+                backdrop: 'static',
+                show: true
+            };
+            $('#modal-user').modal(options);
+            // showModalCreate();
         })
 
         function showModalCreate() {
             let options = {
-                'backdrop': 'static',
-                'show': true
+                backdrop: 'static',
+                show: true
             };
             let modal = $('#modal-user');
             $('#modal-title-user').text('Tambah User');
