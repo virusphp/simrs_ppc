@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('username');
             $table->string('email')->unique();
-            $table->string('kode_pegawai')->default("-");
+            $table->string('kode_pegawai')->default("-"); // di pakai di instansi RSUD 
             $table->string('password');
             $table->char('status', 1)->default(0);
             $table->timestamps();

@@ -29,6 +29,32 @@ class UsersDataTable extends DataTable
             ->startsWithSearch()
             ->setRowId('idx')
             ->addIndexColumn()
+             ->addColumn('name',function($query){
+                if(!is_null($query->name)){
+                    return $query->name;
+                } 
+            })
+            ->addColumn('username',function($query){
+                if(!is_null($query->username)){
+                    return $query->username;
+                } 
+            })
+            ->addColumn('email',function($query){
+                if(!is_null($query->email)) {
+                    return $query->email;
+                }
+            })
+            ->addColumn('kode_pegawai',function($query){
+                if(!is_null($query->kode_pegawai)) {
+                    return $query->kode_pegawai;
+                }
+            })
+            ->addColumn('action', function ($query) {
+                return view('datatables._action-user', [
+                    'idx' => $query->id,
+                    'name' => $query->name,
+                ]);
+            })
             ->editColumn('status', function ($query) {
                 if ($query->status == 1) {
                     return '<span class="badge badge-success">AKTIF</span>';
@@ -36,7 +62,8 @@ class UsersDataTable extends DataTable
                     return '<span class="badge badge-primary">NONAKTIF</span>';
                 }
             })
-            ->addColumn('action', 'users.action');
+            ->rawColumns(['status', 'action'])
+            ->toJson();
     }
 
     /**
@@ -100,9 +127,11 @@ class UsersDataTable extends DataTable
     {
          return [
             Column::computed('DT_RowIndex')->searchable(false)->title('#'),
-            Column::make('nama_pemakai')->title('Nama Login'),
-            Column::make('lastlogin')->title('Terakhir Login'),
-            Column::make('loginpemakai_aktif')->searchable(false)->title('Status'),
+            Column::make('name')->title('Nama'),
+            Column::make('username')->title('Username'),
+            Column::make('email')->title('Email'),
+            Column::make('kode_pegawai')->title('Kode Pegawai'),
+            Column::make('status')->searchable(false)->title('Status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
