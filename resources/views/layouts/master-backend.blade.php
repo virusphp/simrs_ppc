@@ -34,8 +34,8 @@
 	<!-- Main styles for this application-->
 	<link rel="stylesheet" href="{{ mix('css/app.css') }}">
 	<link rel="stylesheet" href="{{ asset('toast/jquery.toast.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 	@stack('css')
+	<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
 </head>
 

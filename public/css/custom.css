@@ -434,3 +434,7 @@ label.card-label {
 .bg-abu {
     background-color: #2f353a;
 }
+
+table .table {
+    border-collapse: collapse !important;
+}

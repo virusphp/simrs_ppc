@@ -69,6 +69,11 @@
             return false;
         }
 
+        $('#roles').select2({
+            width: "100%",
+            dropdownParent: $('#modal-user')
+        })
+
         // ============= END INIT =============
 
         // ============= ADD =============
@@ -90,6 +95,10 @@
             modal.removeAttr('style');
             return false;
         }
+
+        $('#btn-action-user').click(function() {
+            saveData();
+        })
 
         function saveData(data) {
             clearError();

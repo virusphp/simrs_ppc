@@ -45,5 +45,27 @@ class UsersController extends BackendController
             return response()->json($result);
         }
     }
+
+    public function store(Request $request)
+    {
+        $data = $this->handleRequest($request);
+        $user = User::create($data);
+        $user->assignRole($request->roles);
+        $this->notification('success', 'Perhatian!', 'User ' . $user->name . ' berhasil di buat!');
+        return redirect()->route('users.index');
+    }
+
+    protected function handleRequest($params)
+    {
+        return [
+            'nama'       => $params->nama,
+            'username'   => $params->username,
+            'email'      => $params->email,
+            'kd_pegawai' => "",
+            'password'   => $params->password,
+            'status'     => "1",
+        ];
+    }
+
    
 }
