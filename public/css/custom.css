@@ -18,7 +18,6 @@
 }
 
 .text-center {
-    color: #001010;
     font-size: small;
 }
 
@@ -430,4 +429,8 @@ label.card-label {
 
 .card-input-element:checked + .card-input {
     box-shadow: 0 0 4px 4px #007bff;
+}
+
+.bg-abu {
+    background-color: #2f353a;
 }

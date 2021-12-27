@@ -43,19 +43,24 @@ class UsersDataTable extends DataTable
                 if(!is_null($query->email)) {
                     return $query->email;
                 }
-            })
-            ->addColumn('action', function ($query) {
-                return view('datatables._action-user', [
-                    'idx' => $query->id,
-                    'name' => $query->name,
-                ]);
-            })
+            })  
+            // ->addColumn('roles',function($query){
+            //     if(!is_null($query->roles)) {
+            //         return '<span class="badge badge-info">'.$query->roles->first()->name.'</span>';
+            //     }
+            // })  
             ->editColumn('status', function ($query) {
                 if ($query->status == 1) {
                     return '<span class="badge badge-success">AKTIF</span>';
                 } else {
                     return '<span class="badge badge-primary">NONAKTIF</span>';
                 }
+            })
+            ->addColumn('action', function ($query) {
+                return view('datatables._action-user', [
+                    'idx' => $query->id,
+                    'name' => $query->name,
+                ]);
             })
             ->rawColumns(['status', 'action'])
             ->toJson();
@@ -125,6 +130,7 @@ class UsersDataTable extends DataTable
             Column::make('username')->title('Username'),
             Column::make('email')->title('Email'),
             Column::make('status')->searchable(false)->title('Status'),
+            // Column::computed('roles')->title('Roles'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

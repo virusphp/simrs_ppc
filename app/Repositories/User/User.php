@@ -8,6 +8,6 @@ class User
 {
     public function getUser()
     {
-        return Model::select('name','username','email','password','status');
+        return Model::all();
     }
 }
