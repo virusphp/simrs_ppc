@@ -32,7 +32,7 @@
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('users.index') }}">
                         <i class="c-sidebar-nav-icon fa fa-users"> </i>Manage User</a>
                 </li>
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('roles.index') }}">
                         <i class="c-sidebar-nav-icon fa fa-users"> </i>Manage Akses Pengguna</a>
                 </li>
             </ul>

@@ -436,6 +436,6 @@ label.card-label {
     background-color: #2f353a;
 }
 
-table .table {
-    border-collapse: collapse !important;
+table .table .dataTable {
+    border-spacing: 0;
 }

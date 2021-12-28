@@ -25,9 +25,13 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['middleware' => ['auth'], 'namespace' => 'Backend', 'prefix' => 'backend'], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
+    // USER MANAG
     Route::resource('users', 'UsersController');
     Route::get('ajax/users', 'UsersController@indexAjax')->name('ajax.users');
     Route::post('users/ajax/store', 'UsersController@ajaxStore')->name('ajax.users.store');
     Route::PATCH('users/ajax/update', 'UsersController@ajaxUpdate')->name('ajax.users.update');
     Route::delete('users/ajax/destroy', 'UsersController@ajaxDestroy')->name('ajax.users.destroy');
+
+    // ROLE MANAG
+    Route::Resource('roles', 'RolesController');
 });

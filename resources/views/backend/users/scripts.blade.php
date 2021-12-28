@@ -280,7 +280,6 @@
         }
         // ============= END DELETE =============
 
-
     });
     // Tutup function anonymus
 </script>
