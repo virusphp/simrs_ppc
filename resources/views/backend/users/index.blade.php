@@ -16,27 +16,7 @@ User
                     <!-- success message -->
                 </div>
                 <div class="card rounded-lg">
-                    <div class="card-header">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item float-left">
-                                <h4>Daftar User</h4>
-                            </li>
-                            <li class="list-inline-item float-right">
-                                <div class="d-none d-md-block">
-                                    <button id="add-user" class="add-user-btn btn btn-sm btn-primary mb-3 mr-auto">
-                                        <i class="c-icon fa fa-plus"></i>
-                                        Tambah User
-                                    </button>
-                                </div>
-                                <div class="d-md-none float-right">
-                                    <button class="add-user-btn btn btn-sm btn-primary mb-3">
-                                        <i class="fas fa-plus"></i>
-
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    @include('backend.users.partials._card-header')
                     <div class="card-body">
                         @include('backend.users._table')
                     </div>

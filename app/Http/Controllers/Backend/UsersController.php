@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\DataTables\UsersDataTable;
 use App\Http\Controllers\BackendController;
 use App\Repositories\User\User;
 use Illuminate\Http\Request;
@@ -29,15 +28,15 @@ class UsersController extends BackendController
 
             $no = 1;
             foreach ($users as $user) {
-                $button = '<button class="btn btn-sm btn-warning" id="edit-barang" data-id="' . $user->id . '" data-nama="' . $user->name . '" title="Edit"><i class="fas fa-edit"></i></button>' . 
-                '  ' . '<button class="btn btn-sm btn-danger" id="btn-delete" data-id="' . $user->id . '" title="Hapus"><i class="fas fa-trash-alt"></i><span class="text"></span></button>';
+                $button = '<button class="btn btn-sm btn-warning" id="edit-user" data-id="' . $user->id . '" data-nama="' . $user->name . '" title="Edit"><i class="fas fa-edit"></i></button>' . 
+                '  ' . '<button class="btn btn-sm btn-danger" id="delete-user" data-id="' . $user->id . '" data-nama="' . $user->name . '" title="Hapus"><i class="fas fa-trash-alt"></i><span class="text"></span></button>';
                 $query[] = [
                     'no' => $no++,
                     'name' => $user->name,
                     'username' => $user->username,
                     'email' => $user->email,
                     'status' => statusUser($user->status),
-                    'roles' => '<span class="badge badge-info">'.implode(",", $user->getRoleNames()->toArray()).'</span>',
+                    'roles' => implode(",", $user->getRoleNames()->toArray()),
                     'action' => $button
                 ];
             }
@@ -46,19 +45,25 @@ class UsersController extends BackendController
         }
     }
 
-    public function store(Request $request)
+    public function ajaxStore(Request $request)
     {
-        $data = $this->handleRequest($request);
-        $user = User::create($data);
-        $user->assignRole($request->roles);
-        $this->notification('success', 'Perhatian!', 'User ' . $user->name . ' berhasil di buat!');
-        return redirect()->route('users.index');
+        if ($request->ajax()) {
+            $data = $this->handleRequest($request);
+            $user = $this->user->saveUser($data);
+
+            if (!$user) {
+                return response()->jsonApi(201, 'Data user gagal di simpan');
+            }
+
+            $user->assignRole($request->roles);
+            return response()->jsonApi(200, 'Data user berhasil di simpan');
+        }
     }
 
     protected function handleRequest($params)
     {
         return [
-            'nama'       => $params->nama,
+            'name'       => $params->name,
             'username'   => $params->username,
             'email'      => $params->email,
             'kd_pegawai' => "",
@@ -67,5 +72,44 @@ class UsersController extends BackendController
         ];
     }
 
+    // Blom di pakai
+    public function ajaxEdit(Request $request)
+    {
+        if ($request->ajax()) {
+            $user = $this->user->cariUser($request);
+            if (!$user) {
+                return response()->jsonApi(201, 'Data user tidak di temukan');
+            }
+            return response()->jsonApi(200, 'Data user ditemukan', $user);
+        }
+    }
+
+    public function ajaxUpdate(Request $request)
+    {
+        if ($request->ajax()) {
+            $user = $this->user->cariUser($request);
+            $data = $this->handleRequest($request);
+            if(!$user) {
+                return response()->jsonApi(201, 'Data user tidak di temukan');
+            }
+            $user->update($data);
+            $this->user->deleteRole($request);
+            $user->assignRole($request->input('roles'));
+            return response()->jsonApi(200, 'Data user berhasil di update');
+        }
+    }
+
+    public function ajaxDestroy(Request $request)
+    {
+        if ($request->ajax()) {
+            $user = $this->user->cariUser($request); 
+            if (!$user) {
+                return response()->jsonApi(201, 'Data user gagal di hapus');
+            }
+
+            $user->delete(); 
+            return response()->jsonApi(200, 'Data user berhasil di hapus');
+        }
+    }
    
 }

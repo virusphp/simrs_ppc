@@ -20,7 +20,7 @@
 
         function ajaxDatatables() {
             $.fn.dataTable.ext.errMode = 'throw';
-            $('#tabel-user').dataTable({
+            oTable = $('#tabel-user').dataTable({
                 "Processing": true,
                 "ServerSide": true,
                 "ordering": false,
@@ -47,7 +47,13 @@
                         {"mData": "status"},
                         {"mData": "roles"},
                         {"className": "text-center","mData": "action"},
-                    ]
+                    ],
+                    "createdRow": function(row, data, dataIndex) {
+                        let panjang = $(row).find('td').length
+                        for (i = 0; i < panjang - 1; i++) {
+                            $(row).find('td').eq(5).addClass('badge badge-info');
+                        }
+                    }
                 });
 
             oTable = $('#tabel-user').DataTable();
@@ -71,7 +77,7 @@
 
         $('#roles').select2({
             width: "100%",
-            dropdownParent: $('#modal-user')
+            dropdownParent: $('#modal-user .modal-content')
         })
 
         // ============= END INIT =============
@@ -96,14 +102,24 @@
             return false;
         }
 
-        $('#btn-action-user').click(function() {
-            saveData();
+        $('#btn-action-user').click(function(e) {
+            e.preventDefault();
+            oForm.valid();
+            $(this).attr("disabled", true);
+            let data = oForm.serialize();
+            let id = $('#id-user').val();
+            if (id == "") {
+                saveData(data);
+            } else {
+                updateData(data +'&id='+id);
+            }
+            return false;
         })
 
         function saveData(data) {
             clearError();
             $.ajax({
-                url: '<?= route('users.store') ?>',
+                url: '/backend/users/ajax/store',
                 method: 'POST',
                 data: data,
                 dataType: 'JSON',
@@ -116,7 +132,7 @@
                             .fadeIn(1500, function() {
                                 $('#success-registrasi')
                             });
-                        setTimeout(clearMessage, 6000);
+                        setTimeout(clearMessage, 5000);
                         oTable.ajax.reload();
                     } else {
                         $('#modal-user').modal('hide');
@@ -146,14 +162,25 @@
 
 
         // ============= EDIT =============
-        $("#tabel-users tbody").on("click", "button.edit-user-btn", function() {
+        $("#tabel-user tbody").on("click", "button#edit-user", function() {
             let parentRow = $(this).closest("tr");
+            let parentTd = $(this).closest("td");
             let data = oTable.row(parentRow).data();
-            let id = $(this).data('idx');
+            let dataSpan = oTable.row(parentTd).data();
+            let id = $(this).data('id');
             unsetFormUser();
             setFormUser(id, data);
             showModalEdit();
         });
+
+         function setFormUser(id, data) {
+            $('#id-user').val(id).trigger('change');
+            $('#name').val(data.name).trigger('change');
+            $('#username').val(data.username).trigger('change');
+            $('#email').val(data.email).trigger('change');
+            $('#roles').val(data.roles).trigger('change');
+            return false;
+        }
 
         function showModalEdit() {
             let options = {
@@ -170,9 +197,9 @@
 
         function updateData(data) {
             clearError();
-            let url = '<?= route('users.update', ':id') ?>';
+            let url = '/backend/users/ajax/update';
             $.ajax({
-                url: url.replace(':id', $('#id-user').val()),
+                url: url,
                 method: 'PATCH',
                 data: data,
                 dataType: 'JSON',
@@ -185,7 +212,7 @@
                             .fadeIn(1500, function() {
                                 $('#success-registrasi')
                             });
-                        setTimeout(clearMessage, 6000);
+                        setTimeout(clearMessage, 5000);
                         oTable.ajax.reload();
                     } else {
                         $('#modal-user').modal('hide');
@@ -215,8 +242,8 @@
 
         // ============= DELETE =============
         $(document).on('click', '#delete-user', function() {
-            var id = $(this).data('idx'),
-                name = $(this).data('name');
+            var id = $(this).data('id'),
+                name = $(this).data('nama');
 
             window.swalWithBootstrapButtons.fire({
                 title: 'Anda yakin akan menghapus data??',
@@ -236,13 +263,13 @@
         })
 
         function ajaxDestroy(idx) {
-            var url = 'url',
+            var url = '/backend/users/ajax/destroy',
                 method = 'DELETE';
             $.ajax({
                 url: url,
                 method: method,
                 data: {
-                    idx: idx
+                    id: idx
                 },
                 success: function(res) {
                     swalWithBootstrapButtons.fire('Lapor!', res.message, 'success');
