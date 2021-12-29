@@ -30,4 +30,6 @@ Roles
 <script src="{{ mix('js/form.js') }}"></script>
 {{-- config script validation,sweetalert2,etc --}}
 @include('script.script-global')
+{{-- script action delete --}}
+@include('backend.roles.scripts')
 @endpush

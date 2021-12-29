@@ -3,7 +3,7 @@
         <tr class="bg-abu">
             <th>#</th>
             <th>Nama Role</th>
-            <th>Action</th>
+            <th width="280px">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -12,6 +12,8 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $role->name }}</td>
             <td>
+                {!! Form::open(['route' => ['roles.destroy', $role->id] , 'method' => 'delete', 'id' =>
+                'form-delete-role']) !!}
                 <a class="btn btn-sm btn-info" href="{{ route('roles.show',$role->id) }}">
                     <i class="fas fa-eye"></i>
                 </a>
@@ -26,6 +28,7 @@
                 'data-idx' => $role->id,
                 'data-name' => $role->name
                 ]) !!}
+                {!! Form::close() !!}
             </td>
         </tr>
         @endforeach

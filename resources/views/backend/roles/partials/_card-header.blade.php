@@ -25,14 +25,15 @@
 
 				<div class="form-group">
 					<div class="controls">
-						<button id="add-user" class="add-user-btn btn btn-sm btn-primary d-none d-md-block"
-							type="button">
+						<a id="add-user" href="{{ route('roles.create') }}"
+							class="add-user-btn btn btn-sm btn-primary d-none d-md-block">
 							<i class="fas fa-plus"></i>
 							Tambah
-						</button>
-						<button class="add-user-btn btn btn-sm btn-primary mb-2 d-md-none" type="button">
+						</a>
+						<a href="{{ route('roles.create') }}"
+							class="add-user-btn btn btn-sm btn-primary mb-2 d-md-none">
 							<i class="fas fa-plus"></i>
-						</button>
+						</a>
 					</div>
 				</div>
 
